@@ -198,6 +198,101 @@ pub fn test_impls_display_3() {
 }
 */
 
+/// This test checks that the `insert` works in a simple case
+/*
+#[test]
+pub fn test_insert_simple_3() {
+    let mut head = ListNode::default();
+    let mut list = &mut head;
+    list = list.insert(-10);
+    list = list.insert(4);
+    list.insert(1);
+    assert_eq!(
+        head,
+        ListNode::Cons(
+            -10,
+            Box::new(ListNode::Cons(
+                4,
+                Box::new(ListNode::Cons(1, Box::new(ListNode::Nil)))
+            ))
+        )
+    );
+}
+*/
+
+/// This test uses "property-based testing": this means it generates random test cases
+/// and checks that a property holds for all of them.
+/// In this case, the property is that adding all the elements from a `Vec<i32>` to a `ListNode<i32>`
+/// and converting it back to a `Vec<i32>` should yield the same `Vec<i32>` you started with.
+/*
+#[test]
+pub fn test_insert_7() {
+    fn insert_is_valid(v: Vec<i32>) -> bool {
+        let mut head = ListNode::default();
+        let mut list = &mut head;
+        for x in v.iter() {
+            list = list.insert(*x);
+        }
+
+        // check result
+        let mut curr = head;
+        for v in v.iter() {
+            match curr {
+                ListNode::Cons(x, next) => {
+                    if x != *v {
+                        return false;
+                    }
+                    curr = *next;
+                }
+                ListNode::Nil => {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    quickcheck(insert_is_valid as fn(Vec<i32>) -> bool);
+}
+*/
+
+/// This test uses "property-based testing": this means it generates random test cases
+/// and checks that a property holds for all of them.
+/// In this case, the property is that converting a `Vec<i32>` to a `ListNode<i32>` and
+/// calling `reverse` on it should yield a `ListNode<i32>` that, when converted back to a `Vec<i32>`,
+/// is the reverse of the original `Vec<i32>`.
+/*
+#[test]
+pub fn test_reverse_7() {
+    fn reverse_is_valid(v: Vec<i32>) -> bool {
+        // create list
+        let mut head = ListNode::default();
+        let mut list = &mut head;
+        for x in v.iter() {
+            list = list.insert(*x);
+        }
+        // reverse
+        head.reverse();
+        // check result
+        let mut curr = head;
+        for v in v.iter().rev() {
+            match curr {
+                ListNode::Cons(x, next) => {
+                    if x != *v {
+                        return false;
+                    }
+                    curr = *next;
+                }
+                ListNode::Nil => {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    quickcheck(reverse_is_valid as fn(Vec<i32>) -> bool);
+}
+*/
+
 /// This test checks that `ListNode` properly implements `From<Vec>`
 /*
 #[test]
@@ -278,64 +373,6 @@ pub fn test_vec_to_list_to_vec_roundtrip_8() {
         assert_eq!(v, v2);
     }
     quickcheck(roundtrip as fn(Vec<i32>));
-}
-*/
-
-/// This test checks that the `insert` works in a simple case
-/*
-#[test]
-pub fn test_insert_simple_3() {
-    let mut head = ListNode::default();
-    let mut list = &mut head;
-    list = list.insert(-10);
-    list = list.insert(4);
-    list.insert(1);
-    assert_eq!(
-        head,
-        ListNode::Cons(
-            -10,
-            Box::new(ListNode::Cons(
-                4,
-                Box::new(ListNode::Cons(1, Box::new(ListNode::Nil)))
-            ))
-        )
-    );
-}
-*/
-
-/// This test uses "property-based testing": this means it generates random test cases
-/// and checks that a property holds for all of them.
-/// In this case, the property is that adding all the elements from a `Vec<i32>` to a `ListNode<i32>`
-/// and converting it back to a `Vec<i32>` should yield the same `Vec<i32>` you started with.
-/*
-#[test]
-pub fn test_insert_7() {
-    fn insert_is_valid(v: Vec<i32>) -> bool {
-        let mut head = ListNode::default();
-        let mut list = &mut head;
-        for x in v.iter() {
-            list = list.insert(*x);
-        }
-        v == Vec::from(head)
-    }
-    quickcheck(insert_is_valid as fn(Vec<i32>) -> bool);
-}
-*/
-
-/// This test uses "property-based testing": this means it generates random test cases
-/// and checks that a property holds for all of them.
-/// In this case, the property is that converting a `Vec<i32>` to a `ListNode<i32>` and
-/// calling `reverse` on it should yield a `ListNode<i32>` that, when converted back to a `Vec<i32>`,
-/// is the reverse of the original `Vec<i32>`.
-/*
-#[test]
-pub fn test_reverse_7() {
-    fn reverse_is_valid(v: Vec<i32>) -> bool {
-        let mut head: ListNode<i32> = v.clone().into();
-        head.reverse();
-        v.iter().rev().eq(Vec::from(head).iter())
-    }
-    quickcheck(reverse_is_valid as fn(Vec<i32>) -> bool);
 }
 */
 

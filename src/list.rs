@@ -28,12 +28,16 @@ impl<T> ListNode<T> {
 
 // Required methods for `ListNode<T>`
 impl<T> ListNode<T> {
+    /// Creates a new empty list
     pub fn new() -> Self {
         todo!()
     }
+    /// Inserts a new list node with value `value` after `self` and returns a reference to the new
+    /// node
     pub fn insert(&mut self, value: T) -> &mut Self {
         todo!()
     }
+    /// Reverses the list in place.
     pub fn reverse(&mut self) {
         todo!()
     }

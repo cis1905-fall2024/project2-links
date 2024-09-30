@@ -95,7 +95,9 @@ impl<T> ListNode<T> {
 ```
 
 The skeleton for these methods is provided in the stencil code. You should not
-change their signatures or the trait bounds of the `impl` block.
+change their signatures or the trait bounds of the `impl` block. You may
+consult the internet for algorithmic guidance on how to reverse a linked list,
+but searching for Rust code specifically is disallowed.
 
 If you are having trouble with a specific test case, you can paste it into
 `main.rs` and use `cargo run` instead. This can make it easier to use print debugging.
@@ -178,7 +180,7 @@ Finally, you should implement the `From` trait in two ways to allow conversion b
   - tests: `test_impls_list_from_vec_3`
 - Implement `From<ListNode<T>>` for `Vec<T>`.
   - documentation: [`From`](https://doc.rust-lang.org/std/convert/trait.From.html)
-  - tests: `test_impls_vec_from_list_3`
+  - tests: `test_impls_vec_from_list_3`, `test_insert_roundtrip_10`
 
 This allows you to convert a `Vec` into a `ListNode` and vice versa. For example:
 
@@ -298,13 +300,13 @@ def rotate_right(n):
 Start by implementing the following traits for `TreeNode`. As with part 1,
 uncomment the relevant tests as you progress to check your progress.
 
-- Implement `Default` for `ListNode<T>`. The default value should be `Nil`.
+- Implement `Default` for `TreeNode<T>`. The default value should be `Leaf`.
   - documentation: [`Default`](https://doc.rust-lang.org/std/default/trait.Default.html)
   - tests: `test_impls_default_5`
-- Implement `PartialEq` for `ListNode<T>`.
+- Implement `PartialEq` for `TreeNode<T>`.
   - documentation: [`PartialEq`](https://doc.rust-lang.org/std/cmp/trait.PartialEq.html)
   - tests: `test_impls_eq_5`
-- Implement `Eq` for `ListNode<T>`.
+- Implement `Eq` for `TreeNode<T>`.
   - documentation: [`Eq`](https://doc.rust-lang.org/std/cmp/trait.Eq.html)
   - tests: `test_impls_eq_5` (same as previous)
 
@@ -317,7 +319,7 @@ methods like `is_bst` and `is_balanced` to get a sense of how to work with the
 To start, we will only implement a binary search tree, without rebalancing. This requires implementing the following functions:
 
 ```rust
-impl<T: Ord> ListNode<T> {
+impl<T: Ord> TreeNode<T> {
     pub fn node(value: T, left: TreeNode<T>, right: TreeNode<T>) -> TreeNode<T>;
     pub fn new() -> TreeNode<T>;
     pub fn insert(&mut self, value: T);
@@ -333,9 +335,10 @@ If you are having trouble with a specific test case, you can paste it into
 `TreeNode<T>` for you, so printing the tree is a valid debugging strategy. To
 see an example, uncomment the `tree_example()` in `main.rs`.
 
-After this section, you should have un-commented and be passing all tests **except for**
+After this section, you should have un-commented and be passing the following tests
+* `test_impls_eq_5`
+* `test_impls_default_5`
 * `test_insert_same_5`
-* `test_insert_5`.
 
 ### More Trait Implementations
 
@@ -356,7 +359,7 @@ This allows you to convert a `Vec` into a `TreeNode` and vice versa. For example
 ```rust
 let vec = vec![1, 2, 3];
 let tree: TreeNode<i32> = vec.into();
-let back_to_vec: Vec<i32> = list.into();
+let back_to_vec: Vec<i32> = tree.into();
 ```
 
 If you are having trouble with the implementation, you can start by writing the
@@ -364,10 +367,11 @@ If you are having trouble with the implementation, you can start by writing the
 This will allows you to submit to the autograder (if the trait implementation
 doesn't exist, your code will fail to compile).
 
-Once you are done with this section, make sure all the tests in `test_list.rs`
+Once you are done with this section, make sure all the tests in `test_tree.rs`
 are un-commented and run `cargo test` to check your implementation. You should
 be passing all tests **besides**
-
+ 
+* `test_insert_5`.
 * `test_rebalance_root_5`
 * `test_rotate_left_5`
 * `test_rotate_right_5`
@@ -375,14 +379,29 @@ be passing all tests **besides**
 
 ### More Method Implementations
 
+Finally, you will implement the rotation and balancing algorithms to turn your
+binary search tree into a balanced binary search tree. You will implement the
+following methods:
+
 ```rust
-impl<T: Ord> ListNode<T> {
+impl<T: Ord> TreeNode<T> {
     fn balance_factor(&self) -> i32;
     pub fn left_rotate(&mut self);
     pub fn right_rotate(&mut self);
     fn rebalance(&mut self);
 }
 ```
+
+As before, the definitions are provided in the stencil and the signatures
+should not be changed. This is the most difficult part of the assignment, so
+consider ownership carefully and come to hours or post on Ed if you are
+confused.
+
+Don't forget to add a call to `rebalance` in your `insert` function once your
+implementation is complete.
+
+After this section, all tests in `tests/test_tree.rs` should be un-commented
+and passing.
 
 #### A Note on Rotations
 
@@ -395,7 +414,7 @@ note that it's also valid to call take on a `&mut Box<TreeNode<T>>` to get a
 
 As with `reverse` and `insert`, the rotation code will follow the pattern.
 
-1. Take ownership of the current node using `std::mem::take`.
+1. Take ownership of the current node using `mem::take`.
 2. Modify the node as needed.
 3. Write the modified node back to the original location (`self`).
 
