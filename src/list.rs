@@ -39,21 +39,21 @@ impl<T> ListNode<T> {
     }
 }
 
-// Implement `PartialEq` for `ListNode<T>`
-// TODO:
-
-// Implement `Display` for `ListNode<T>`
-// TODO:
-
-// Implement `Eq` for `ListNode<T>`
-// TODO:
-
 // Implement `Default` for `ListNode<T>`
 impl<T> Default for ListNode<T> {
     fn default() -> Self {
         todo!()
     }
 }
+
+// Implement `PartialEq` for `ListNode<T>`
+// TODO:
+
+// Implement `Eq` for `ListNode<T>`
+// TODO:
+
+// Implement `Display` for `ListNode<T>`
+// TODO:
 
 // Implement `From<Vec<T>>` for `ListNode<T>`
 // TODO:

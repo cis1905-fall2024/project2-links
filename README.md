@@ -45,7 +45,7 @@ pub enum ListNode<T> {
 }
 ```
 
-You should not change the definition of `ListNode`.
+All code for this part is in `src/list.rs`. You should not change the definition of `ListNode`.
 
 You will implement a variety of methods and traits on `ListNode` to make it a
 useful generic data structure that could be used in someone else's code. This
