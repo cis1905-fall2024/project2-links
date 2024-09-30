@@ -1,4 +1,4 @@
-# Containers
+# Link Containers
 
 In this assignment, you will implement a linked list and a balanced binary
 search tree (AVL tree) to get experience with generic data structures and
