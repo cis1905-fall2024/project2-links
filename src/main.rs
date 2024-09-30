@@ -26,5 +26,8 @@ fn tree_example() {
     //    println!("=====================");
     //    t.insert(x);
     //    println!("{}", t.show(3));
+    //    if !t.validate() {
+    //      println!("Tree is not balanced!");
+    //    }
     //}
 }
